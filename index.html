@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width initial-scale=1.0"/>
+		<script src="./js/jquery-3.4.1.js"></script>
+		<script>
+			$(function(){
+				$.post("/target/main",{"value":"ss"},function(data){
+					var rd = data.rd;
+					console.log(rd);
+					for(var i = 0;i<rd.length;i++){
+						console.log(i);
+						$("section").append("<div>"+rd[i]+"</div>");
+					}
+				});
+				$("form").submit(function(){
+					var cmd = $("#cmd").val();
+					if(cmd == ""){
+						alert("语法:\n$/#+key+value\n$:删除记录,#:添加记录,key密钥,value值");
+					}else{
+						$.post("/target/main",{"value":cmd},function(data){
+							if(data.code == 1){
+								alert("done!");
+							}else{
+								alert("fail!");
+							}
+							window.location.href="index.html";
+						});
+					}
+					return false;
+				});
+			});
+		</script>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			
+			header{
+				width: 100%;
+				height: 50px;
+				background-color: coral;
+				box-shadow: 0 0 10px rgba(255,127,80,.5);
+			}
+			header input{
+				height: 30px;
+				margin-top: 10px;
+				margin-left: 10px;
+			}
+			header input:nth-child(1){
+				width: 80%;
+				background-color: rgba(220,100,80,.4);
+				color: aquamarine;
+				box-shadow: 0 0 10px rgba(255,127,80,.3) inset;
+				border-width: 0;
+				text-indent: 16px;
+			}
+			header input:nth-child(2){
+				width: 10%;
+				background-color: coral;
+				color: aliceblue;
+				border-width: 0;
+			}
+			
+			section{
+				margin-top: 20px;
+			}
+			section div{
+				width: 90%;
+				height: 40px;
+				line-height: 40px;text-align: center;
+				box-shadow: 0 0 10px rgba(0,0,0,.2);
+				margin: 10px auto;
+				box-sizing: border-box;
+			}
+		</style>
+		<title></title>
+	</head>
+	<body>
+		<header>
+			<form action="/target/main" method="post">
+				<input id="cmd" type="text" placeholder="番剧名称"/>
+				<input type="submit" />
+			</form>
+		</header>
+		<section>
+			<!-- <div>
+				666
+			</div> -->
+		</section>
+		
+	</body>
+</html>
